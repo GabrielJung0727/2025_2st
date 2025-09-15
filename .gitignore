@@ -1,0 +1,109 @@
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/*.so
+**/.Python
+**/build/
+**/develop-eggs/
+**/dist/
+**/downloads/
+**/eggs/
+**/.eggs/
+**/lib/
+**/lib64/
+**/parts/
+**/sdist/
+**/var/
+**/wheels/
+**/*.egg-info/
+**/.installed.cfg
+**/*.egg
+
+# 가상환경
+**/venv/
+**/env/
+**/ENV/
+**/.env
+**/.venv
+**/env.bak/
+**/venv.bak/
+
+# IDE 설정 파일
+**/.idea/
+**/.vscode/
+**/*.swp
+**/*.swo
+**/*~
+
+# 로그 파일
+**/*.log
+**/logs/
+**/log/
+
+# Mac OS 시스템 파일
+**/.DS_Store
+**/.AppleDouble
+**/.LSOverride
+**/Icon
+**/.Spotlight-V100
+**/.Trashes
+
+# Windows 시스템 파일
+**/Thumbs.db
+**/ehthumbs.db
+**/Desktop.ini
+**/$RECYCLE.BIN/
+
+# 임시 파일
+**/*.tmp
+**/*.bak
+**/*.swp
+**/*~.nib
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# 데이터베이스
+**/*.sqlite3
+**/*.db
+
+# Jupyter Notebook
+**/.ipynb_checkpoints
+**/*.ipynb_checkpoints/
+
+# 환경 설정
+**/.env
+**/.env.local
+**/.env.*.local
+
+# 기타
+**/.pytest_cache/
+**/.python-version
+**/.mypy_cache/
+**/.dmypy.json
+**/dmypy.json
+
+# 대용량 파일 및 데이터
+**/*.zip
+**/*.tar
+**/*.gz
+**/*.rar
+**/*.7z
+**/*.csv
+**/*.xlsx
+**/*.xls
+**/*.pdf
+**/*.doc
+**/*.docx
+**/*.ppt
+**/*.pptx
+
+# 미디어 파일
+**/*.mp4
+**/*.mov
+**/*.avi
+**/*.mkv
+**/*.mp3
+**/*.wav
+**/*.flac
