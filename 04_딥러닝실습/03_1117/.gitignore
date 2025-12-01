@@ -1,0 +1,28 @@
+# Kaggle credentials
+kaggle.json
+.kaggle/
+api/kaggle.json
+
+# Data and large artifacts
+# 기본적으로 data/ 전체는 추적하지 않되, 아래 메타 파일만 허용
+data/*
+!data/README.md
+!data/LICENSE.txt
+!data/annotations.csv
+!data/images/
+!data/extras/
+data/images/*
+!data/images/.gitkeep
+data/extras/*
+!data/extras/.gitkeep
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Colab/Notebook
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,4 @@
+kaggle>=1.6.17
+opendatasets>=0.1.22
+numpy
+pandas

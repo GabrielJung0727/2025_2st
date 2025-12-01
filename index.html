@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2학기 과제 한눈에 보기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <p class="eyebrow">2024 · 2학기</p>
+        <h1>수업별 과제를 한눈에 정리했습니다</h1>
+        <p class="lede">
+          수업을 선택하고 메뉴에서 과제를 클릭하면, 요약 설명과 파일 링크가 바로 펼쳐집니다. GitHub Pages에 그대로 올릴 수 있는 정적 페이지입니다.
+        </p>
+        <div class="hero-stats">
+          <span class="pill" id="course-count">과목 수 집계 중...</span>
+          <span class="pill" id="assignment-count">과제 수 집계 중...</span>
+          <span class="pill">정적 · 클라이언트 렌더링</span>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="courses" data-course-list></aside>
+
+        <section class="board">
+          <div class="course-header">
+            <div>
+              <span class="pill" data-course-code>과목 코드</span>
+              <h2 data-course-name>과목명을 불러오는 중</h2>
+              <p class="muted" data-course-summary>과목 설명이 여기에 표시됩니다.</p>
+            </div>
+            <div class="tags" data-course-tags></div>
+          </div>
+
+          <div class="panels">
+            <div class="menu-panel">
+              <div class="panel-title">
+                <span>과제 메뉴</span>
+              </div>
+              <input class="menu-search" type="search" placeholder="과제명/설명/태그 검색" data-search />
+              <div class="menu-list" data-assignment-menu></div>
+            </div>
+
+            <div class="detail-panel">
+              <div class="assignment-header">
+                <h3 class="assignment-title" data-assignment-title>과제를 선택하세요</h3>
+                <span class="assignment-date" data-assignment-date></span>
+              </div>
+              <p class="assignment-summary" data-assignment-summary>왼쪽 메뉴에서 과제를 선택하면 요약과 파일이 표시됩니다.</p>
+              <div class="run-block" data-run-block hidden>
+                <div class="panel-title">미리보기 / 테스트</div>
+                <div class="run-grid" data-run-list></div>
+              </div>
+              <div class="chip-row" data-assignment-tags></div>
+              <div class="file-grid" data-file-list></div>
+              <div class="preview-block" data-preview-block hidden>
+                <div class="preview-header">
+                  <div>
+                    <div class="panel-title">미리보기</div>
+                    <p class="muted" data-preview-label></p>
+                  </div>
+                  <div class="preview-actions">
+                    <a class="pill link-btn" data-preview-open target="_blank" rel="noopener noreferrer" hidden>새 탭으로 열기</a>
+                  </div>
+                </div>
+                <div class="preview-body">
+                  <iframe title="미리보기" data-preview-iframe hidden></iframe>
+                  <pre class="code-view" data-preview-code hidden></pre>
+                </div>
+              </div>
+              <div class="empty" data-empty-state hidden>아직 등록된 과제가 없습니다.</div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footnote">
+        <p>
+          과제 데이터는 <code>data/courses.js</code>에서 관리합니다. 파일 경로나 요약을 수정하고 다시 커밋하면 GitHub Pages에서도 즉시 반영됩니다.
+        </p>
+      </footer>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

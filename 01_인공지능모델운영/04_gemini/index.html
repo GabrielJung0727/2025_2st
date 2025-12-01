@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemini Chat</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 20% 20%, #1e293b, #0f172a 40%),
+                  radial-gradient(circle at 80% 0%, #0ea5e9, #0f172a 30%),
+                  radial-gradient(circle at 40% 80%, #a855f7, #0f172a 35%);
+      padding: 24px;
+    }
+    .card {
+      width: min(960px, 100%);
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+    }
+    h1 { margin: 0 0 12px; font-weight: 700; letter-spacing: -0.5px; }
+    #log {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      height: 360px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .bubble {
+      padding: 12px 14px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      max-width: 80%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    .user {
+      background: linear-gradient(135deg, #0ea5e9, #22d3ee);
+      color: #0f172a;
+      align-self: flex-end;
+    }
+    .bot {
+      background: #111827;
+      color: #e2e8f0;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      align-self: flex-start;
+    }
+    form {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: stretch;
+    }
+    textarea {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(15, 23, 42, 0.6);
+      color: #e2e8f0;
+      min-height: 64px;
+      resize: vertical;
+    }
+    button {
+      background: linear-gradient(135deg, #0ea5e9, #22d3ee);
+      color: #0f172a;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(34, 211, 238, 0.35);
+      transition: transform 0.1s ease, box-shadow 0.2s ease;
+    }
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+    .lang-toggle {
+      display: inline-flex;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .lang-toggle button {
+      border: none;
+      background: transparent;
+      color: #cbd5e1;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .lang-toggle button.active {
+      background: rgba(14, 165, 233, 0.2);
+      color: #0ea5e9;
+    }
+    @media (max-width: 720px) {
+      form { flex-direction: column; }
+      button { width: 100%; }
+      .user, .bot { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="row" style="align-items: center; justify-content: space-between;">
+      <h1 id="title">Gemini Chat</h1>
+      <div class="lang-toggle" aria-label="Language toggle">
+        <button type="button" data-lang="ko" class="active">한국어</button>
+        <button type="button" data-lang="en">English</button>
+      </div>
+    </div>
+    <p id="subtitle" class="meta">FastAPI + Gemini 간단 챗봇</p>
+
+    <div id="log"></div>
+
+    <form id="chat-form">
+      <textarea id="message" placeholder="무엇이든 물어보세요" required></textarea>
+      <button id="send" type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message');
+    const sendButton = document.getElementById('send');
+    const log = document.getElementById('log');
+    const title = document.getElementById('title');
+    const subtitle = document.getElementById('subtitle');
+    const langButtons = document.querySelectorAll('[data-lang]');
+
+    let lang = 'ko';
+
+    const uiText = {
+      ko: {
+        title: 'Gemini 챗봇',
+        subtitle: '빠르고 심플한 FastAPI + Gemini',
+        placeholder: '무엇이든 물어보세요',
+        send: '보내기',
+        apiError: 'API 호출 중 오류가 발생했어요.'
+      },
+      en: {
+        title: 'Gemini Chatbot',
+        subtitle: 'Fast and simple FastAPI + Gemini',
+        placeholder: 'Ask me anything',
+        send: 'Send',
+        apiError: 'There was a problem contacting the API.'
+      }
+    };
+
+    function applyLanguage(nextLang) {
+      lang = nextLang;
+      const t = uiText[lang];
+      title.textContent = t.title;
+      subtitle.textContent = t.subtitle;
+      messageInput.placeholder = t.placeholder;
+      sendButton.textContent = t.send;
+      langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+    }
+
+    langButtons.forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+    });
+
+    applyLanguage(lang);
+
+    function addBubble(text, role) {
+      const div = document.createElement('div');
+      div.className = `bubble ${role}`;
+      div.textContent = text;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      addBubble(text, 'user');
+      messageInput.value = '';
+      sendButton.disabled = true;
+
+      try {
+        const prompt = lang === 'ko'
+          ? `아래 메시지에 한국어로 답해주세요: ${text}`
+          : `Respond in English to: ${text}`;
+
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: prompt })
+        });
+        const contentType = res.headers.get('content-type') || '';
+        const body = contentType.includes('application/json') ? await res.json() : await res.text();
+
+        if (!res.ok) {
+          const detail = typeof body === 'string' ? body : body?.detail || res.statusText;
+          throw new Error(detail);
+        }
+
+        const reply = typeof body === 'string' ? body : body.reply;
+        addBubble(reply || 'No reply received.', 'bot');
+      } catch (err) {
+        const t = uiText[lang];
+        addBubble(`${t.apiError} (${err})`, 'bot');
+      } finally {
+        sendButton.disabled = false;
+        messageInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>

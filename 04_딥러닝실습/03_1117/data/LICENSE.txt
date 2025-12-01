@@ -1,0 +1,7 @@
+이 파일에는 사용 중인 데이터셋의 라이선스 혹은 출처를 명확히 기재하세요.
+
+예시:
+- 출처: Kaggle — https://www.kaggle.com/datasets/<owner>/<dataset>
+- 라이선스: 해당 데이터셋 페이지의 License 섹션 참조
+- 추가 조건: 대회 규칙 준수, 비상업적 이용 제한 등
+
