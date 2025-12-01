@@ -3,8 +3,12 @@ import tempfile
 from typing import Optional
 
 import google.generativeai as genai
+from dotenv import find_dotenv, load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
+
+# Load .env even when running from api/ folder
+load_dotenv(find_dotenv())
 
 # Configure Gemini client once at startup
 API_KEY = os.getenv("GEMINI_API_KEY")
@@ -18,6 +22,14 @@ MODEL_NAME = os.getenv("GEMINI_MODEL", "models/gemini-1.5-flash")
 model = genai.GenerativeModel(MODEL_NAME)
 
 app = FastAPI(title="Gemini FastAPI Starter", version="0.1.0")
+
+
+@app.get("/")
+def root() -> dict:
+    return {
+        "message": "Gemini FastAPI Starter running. See /docs for interactive docs.",
+        "endpoints": ["/health", "/chat", "/files", "/rag"],
+    }
 
 
 class ChatRequest(BaseModel):
