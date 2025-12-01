@@ -1,0 +1,13 @@
+{
+  "total_revenue": 109846381.4,
+  "total_orders": 31465,
+  "total_customers": 19119,
+  "avg_order_value": 3491.07,
+  "data_period_start": "2011-05-31",
+  "data_period_end": "2014-06-30",
+  "figures": {
+    "monthly_sales": "reports/figures/monthly_sales.png",
+    "category_share": "reports/figures/category_share.png",
+    "territory_sales": "reports/figures/territory_sales.png"
+  }
+}

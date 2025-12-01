@@ -1,0 +1,33 @@
+{
+  "segments": [
+    {
+      "segment": "Others",
+      "customer_count": 5786
+    },
+    {
+      "segment": "Loyal",
+      "customer_count": 4264
+    },
+    {
+      "segment": "Champions",
+      "customer_count": 2454
+    },
+    {
+      "segment": "Potential Loyalist",
+      "customer_count": 2390
+    },
+    {
+      "segment": "Hibernating",
+      "customer_count": 1817
+    },
+    {
+      "segment": "At Risk",
+      "customer_count": 1723
+    },
+    {
+      "segment": "Need Attention",
+      "customer_count": 685
+    }
+  ],
+  "generated_rows": 19119
+}

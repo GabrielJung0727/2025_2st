@@ -1,0 +1,16 @@
+{
+  "metrics": {
+    "mae": 68.82539269995804,
+    "rmse": 103.94614045597676,
+    "r2": 0.8204572167893002
+  },
+  "feature_columns": [
+    "days_since_prev",
+    "order_sequence",
+    "total_due",
+    "avg_order_value_to_date",
+    "tenure_days",
+    "territory_id",
+    "online_order_flag"
+  ]
+}
