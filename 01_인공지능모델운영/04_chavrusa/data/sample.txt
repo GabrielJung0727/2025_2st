@@ -1,0 +1,3 @@
+This is a tiny example document for the Gemini File Search demo.
+It describes a fictional cafe called Chavrusa Coffee that serves espresso, flat white, and herbal tea.
+The cafe opens from 8am to 6pm on weekdays and hosts a study group every Thursday at 4pm.
